@@ -1,0 +1,103 @@
+﻿<style>
+    .row-table {
+        flex: 50px auto;
+        color: gray;
+        cursor: pointer;
+        height: 50px;
+    }
+    .row-table:hover {
+        background-color: lightgray;
+        color: white;
+    }
+    .tbl-cap {
+        text-align: left;
+        font-size: 1em;
+        font-weight: bold;
+        padding: 4px 0;
+        color: white;
+    }
+
+    .tbl-fld {
+        text-align: left;
+    }
+</style>
+
+@if (Model != null)
+{
+    if (Model.Count > 0)
+    {
+        <script>
+
+        </script>
+        <div id="result_cont" style="width:100%;" >
+            @{
+
+                int indexer = 1;
+                foreach (var m in @Model)
+                {
+
+                    <a id="row-@m.Id" data-role="row" data-position="1" class="fx-rowN bText row-table"  
+                        style="text-decoration:none">
+                        <div style="text-align:center;min-width:50px;">
+                            <b id="id-@m.Id" style="font-size:var(--font-s2);">@indexer</b>
+                        </div>
+                        <div class="fx-colN" style="flex-grow:1; max-width:100%;padding: 4px 0px 0 0;">
+
+                            <div class="accordion fx-rowN" id="cap-@m.Id" style="padding:6px;cursor:pointer;">
+                                <div class="fx-rowN" style="display: grid; grid-template-columns:auto 10%; grid-template-rows: auto; width: 100%; align-content: center ">
+                                    <div onclick="showEditModal('EditNoteModal',@m.Id)" style="display: grid; grid-template-columns: 160px 160px 160px auto; grid-template-rows: auto; width: 100%;">
+                                        <div class="tbl-fld">@m.FromName&nbsp;</div>
+                                        <div class="tbl-fld">@m.ToName<span>&nbsp;</span></div>
+                                        <div class="tbl-fld">@m.Actor<span>&nbsp;</span></div>
+                                        <div class="tbl-fld">@m.Action<span>&nbsp;</span></div>
+                                    </div>
+
+
+                                    <div class="tbl-fld">
+                                        <div class="btn base-btn glyphicon glyphicon-trash btn-file-input" style="cursor:pointer;justify-content: center;"
+                                             onclick="deleteNote(event, @m.Id);"></div>
+
+                                        <div class="btn base-btn glyphicon glyphicon-download btn-file-input" style="cursor:pointer;justify-content: center;"
+                                             onclick="downloadFile(event,'/Home/GetDoc/@m.Id');"></div>
+                                        &nbsp;
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </a>
+                    <hr style="border-color:lightgray;margin:2px 0px" />
+                    indexer++;
+                }
+            }
+        </div>
+    }
+    else
+    {
+        <div class="bText" style="padding:0px 0px 10px 50px">No messages were found!</div>
+    }
+}
+
+<script>
+    function downloadFile(e, filePath) {
+        e.preventDefault();
+        var link = document.createElement('a');
+        link.href = filePath;
+        link.download = filePath.substr(filePath.lastIndexOf('/') + 1);
+        link.click();
+    }
+
+    function deleteNote(e, id) {
+        e.preventDefault();
+        if (confirm('Удалить запись?')) {
+            $.ajax({
+                type: "post", url: '/Home/Delete?id=' + id,
+                success: function (result) {
+                    window.location.reload();
+                }, error: {}
+            });
+        }
+    }
+
+</script>

@@ -1,0 +1,38 @@
+﻿@model ExplanatoryNote
+
+<div class="t20 pr80 pl80 b40">
+    <input type="hidden" name="Id" value="@Model.Id" />
+    <div style="display:grid;grid-template-columns:auto auto; grid-template-rows: auto auto auto">
+        <div class="frow mrgn_lr" style="grid-column: 2;justify-content:right">
+            <div class="form-label fnt-b">Должность (кому):</div>
+            <input class="base-input form-input" title="" name="ToPosition" required value="@Model.ToPosition" />
+        </div>
+        <div class="frow mrgn_lr" style="grid-column: 2; justify-content: right">
+            <div class="form-label fnt-b">Кому:</div>
+            <input class="base-input form-input" title="" name="ToName" required value="@Model.ToName" />
+        </div>
+        <div class="frow mrgn_lr" style="grid-column: 2; justify-content: right">
+            <div class="form-label fnt-b">Должность (от):</div>
+            <input class="base-input form-input" title="" name="FromPosition" required value="@Model.FromPosition" />
+        </div>
+        <div class="frow mrgn_lr" style="grid-column: 2; justify-content: right">
+            <div class="form-label fnt-b">От:</div>
+            <input class="base-input form-input" name="FromName" required value="@Model.FromName" />
+        </div>
+        <div class="fx-colN mrgn_lr" style="grid-column: 1 / -1">
+            <div class="fnt-b">Я:</div>
+            <input class="base-input form-input" style="width: auto;"  required name="Actor" value="@Model.Actor" />
+        </div>
+        <div class="fx-colN mrgn_lr" style="grid-column: 1 / -1">
+            <div class="fnt-b">Действие:</div>
+            <input class="base-input form-input" style="width: auto;" required name="Action" value="@Model.Action" />
+        </div>
+        <div class="fx-colN mrgn_lr" style="grid-column: 1 / -1">
+            <div class="fnt-b">По причине:</div>
+            <textarea class="base-input form-text form-field" name="Description" rows="5">@Model.Description</textarea>
+        </div>
+        <div class="fx-colN mrgn_lr">
+        </div>
+    </div>
+</div>
+

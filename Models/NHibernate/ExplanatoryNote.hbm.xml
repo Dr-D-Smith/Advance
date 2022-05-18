@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2" auto-import="true" assembly="AdvanceTest" namespace="AdvanceTest">
+	<class name="ExplanatoryNote" table="ExplanatoryNote" dynamic-update="true" >
+		<cache usage="read-write"/>
+		<id name="Id" column="Id" type="int">
+			<generator class="native" />
+		</id>
+		<property name="ToPosition" />
+		<property name="ToName" />
+		<property name="FromPosition" />
+		<property name="FromName" />
+		<property name="Actor" />
+		<property name="Action" />		
+		<property name="Description" />		
+	</class>
+</hibernate-mapping>
