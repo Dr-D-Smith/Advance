@@ -4,7 +4,7 @@ using FluentMigrator;
 
 namespace AdvanceTest.Migrations
 {
-    [Migration(202205170001)]
+    [Migration(202205170002)]
     public class AddCreatedField : Migration
     {
         public override void Up()
@@ -14,7 +14,6 @@ namespace AdvanceTest.Migrations
                 this.Create.Column("CreatedDate").OnTable("ExplanatoryNote").AsDate();
             }
         }
-
         public override void Down()
         {
             

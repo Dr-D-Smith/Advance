@@ -56,10 +56,11 @@ namespace AdvanceTest.Controllers
 					transaction.Commit();
 				}
 			}
-			return base.View("Index", this.getNotes());
-		}
 
-		[HttpGet]
+            return base.RedirectToAction("Index", this.getNotes());
+        }
+
+        [HttpGet]
 		public ActionResult Edit(int id = 0)
 		{
 			return this.PartialView("~/Views/Home/NoteFields.cshtml", this.getNote(id));
@@ -78,6 +79,7 @@ namespace AdvanceTest.Controllers
 				note.FromPosition = n.FromPosition;
 				note.ToName = n.ToName;
 				note.ToPosition = n.ToPosition;
+				
 				using (ITransaction transaction = session.BeginTransaction())
 				{
 					session.Save(note);
@@ -114,6 +116,7 @@ namespace AdvanceTest.Controllers
 			Stream templateDocumentReadStream = System.IO.File.OpenRead(path);
 			BinaryReader templateDocumentBinaryReader = new BinaryReader(templateDocumentReadStream);
 			byte[] templateDocumentByteArray = templateDocumentBinaryReader.ReadBytes(Convert.ToInt32(templateDocumentReadStream.Length));
+			
 			MemoryStream templateDocumentStream = new MemoryStream();
 			templateDocumentStream.Write(templateDocumentByteArray, 0, templateDocumentByteArray.Length);
 			return templateDocumentStream;
@@ -132,11 +135,14 @@ namespace AdvanceTest.Controllers
 			string xsltBody = this.getXSLT("document.xslt");
 			string xml = this.getNote(id).ToXml();
 			MemoryStream templateDocumentStream = this.getTemplate(Path.Combine(base.Server.MapPath("/Content/"), "template.docx"));
+			
 			XmlDocument xmlBody = new XmlDocument();
 			xmlBody.LoadXml(xml);
-			HomeController.GenerateWordDocument(xmlBody.OuterXml, xsltBody, ref templateDocumentStream);
+			
+			GenerateWordDocument(xmlBody.OuterXml, xsltBody, ref templateDocumentStream);
 			byte[] fileContent = templateDocumentStream.ToArray();
 			templateDocumentStream.Close();
+			
 			base.Response.Buffer = true;
 			base.Response.AddHeader("Content-Disposition", "filename=result.docx");
 			return this.File(fileContent, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "result.docx");
@@ -146,11 +152,14 @@ namespace AdvanceTest.Controllers
 		{
 			StringWriter sw = new StringWriter();
 			XmlWriter xw = XmlWriter.Create(sw);
+			
 			XslCompiledTransform transform = new XslCompiledTransform();
 			transform.Load(new XmlTextReader(new StringReader(xsltBody)));
 			transform.Transform(XmlReader.Create(new StringReader(xmlBody)), xw);
+			
 			XmlDocument wordBody = new XmlDocument();
 			wordBody.LoadXml(sw.ToString());
+			
 			using (WordprocessingDocument output = WordprocessingDocument.Open(templateDocumentStream, true))
 			{
 				Body updatedBodyContent = new Body(wordBody.DocumentElement.InnerXml);

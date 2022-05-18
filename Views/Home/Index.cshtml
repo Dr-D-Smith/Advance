@@ -18,7 +18,7 @@
             <form class="form-horizontal" asp-controller="Home" asp-action="Create" method="post" enctype="multipart/form-data">
                 @Html.Partial("/Views/Home/NoteFields.cshtml", new ExplanatoryNote())
                 <div class="fx-row pr80" style="justify-content:end">
-                    <button type="submit" class="btn base-btn glyphicon glyphicon-edit pr80 b40" style="text-align: end;" formaction="/Home/Create">
+                    <button type="submit" class="btn base-btn glyphicon glyphicon-edit pr80 b40" style="text-align: end;" formmethod="post" formaction="/Home/Create">
                         <span>Создать</span>
                     </button>
                 </div>
