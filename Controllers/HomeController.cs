@@ -133,13 +133,14 @@ namespace AdvanceTest.Controllers
 		{
 			base.Response.ContentType = "text/xml";
 			string xsltBody = this.getXSLT("document.xslt");
-			string xml = this.getNote(id).ToXml();
+
 			MemoryStream templateDocumentStream = this.getTemplate(Path.Combine(base.Server.MapPath("/Content/"), "template.docx"));
 			
-			XmlDocument xmlBody = new XmlDocument();
-			xmlBody.LoadXml(xml);
-			
-			GenerateWordDocument(xmlBody.OuterXml, xsltBody, ref templateDocumentStream);
+			string xmlData = this.getNote(id).ToXml();
+            XmlDocument xmlDataBody = new XmlDocument();
+			xmlDataBody.LoadXml(xmlData);
+
+            GenerateWordDocument(xmlDataBody.OuterXml, xsltBody, ref templateDocumentStream);
 			byte[] fileContent = templateDocumentStream.ToArray();
 			templateDocumentStream.Close();
 			
